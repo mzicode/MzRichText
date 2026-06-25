@@ -18,7 +18,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     private static final String IMAGE_1 = "https://cn.bing.com/th?id=OHR.LeatherbackTT_ROW0614606094_1920x1080.jpg";
     private static final String IMAGE_2 = "https://cn.bing.com/th?id=OHR.FlamingosNamibia_ROW1247073951_1920x1080.jpg";
-    private static final String SAMPLE_HTML = "<p>这是一个轻量图文混排库 Demo，预览控件不自带滚动，适合 RecyclerView；整页预览时外层套 ScrollView。</p>"
+    private static final String SAMPLE_HTML = "<p>这是一个轻量图文混排库示例，展示控件不自带滚动，适合 RecyclerView；整页展示时外层套 ScrollView。</p>"
             + "<img src=\"" + IMAGE_1 + "\" width=\"1920\" height=\"1080\"/>"
             + "<p>编辑器支持在光标位置插入图片、删除图片、导出 HTML 再预览。</p>";
 

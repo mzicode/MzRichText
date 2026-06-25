@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     namespace 'com.mz.richtext'
@@ -19,9 +20,50 @@ android {
         }
     }
 
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                groupId = 'io.github.mzicode'
+                artifactId = 'mz-richtext'
+                version = '0.1.0'
+
+                pom {
+                    name = 'MzRichText'
+                    description = 'A lightweight Android rich text view and editor for text and images.'
+                    url = 'https://github.com/mzicode/MzRichText'
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id = 'mzicode'
+                            name = 'mzicode'
+                        }
+                    }
+                    scm {
+                        connection = 'scm:git:git://github.com/mzicode/MzRichText.git'
+                        developerConnection = 'scm:git:ssh://github.com/mzicode/MzRichText.git'
+                        url = 'https://github.com/mzicode/MzRichText'
+                    }
+                }
+            }
+        }
+    }
 }
