@@ -27,6 +27,13 @@ dependencies {
 ./gradlew :library:publishToMavenLocal
 ```
 
+发布到 Maven Central 时，通过 Gradle 参数或环境变量提供：
+
+- `mavenCentralUsername` / `MAVEN_CENTRAL_USERNAME`
+- `mavenCentralPassword` / `MAVEN_CENTRAL_PASSWORD`
+- `signingKey` / `SIGNING_KEY`
+- `signingPassword` / `SIGNING_PASSWORD`
+
 ## 能力
 
 - 展示：`MzRichShowView` 渲染文字和图片，支持图片点击、链接点击。

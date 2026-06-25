@@ -1,5 +1,10 @@
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
+apply plugin: 'signing'
+
+def publishedGroupId = 'io.github.mzicode'
+def publishedArtifactId = 'mz-richtext'
+def publishedVersion = '0.1.0'
 
 android {
     namespace 'com.mz.richtext'
@@ -34,12 +39,25 @@ dependencies {
 
 afterEvaluate {
     publishing {
+        repositories {
+            maven {
+                name = 'MavenCentral'
+                url = uri(publishedVersion.endsWith('SNAPSHOT')
+                        ? 'https://central.sonatype.com/repository/maven-snapshots/'
+                        : 'https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/')
+                credentials {
+                    username = findProperty('mavenCentralUsername') ?: System.getenv('MAVEN_CENTRAL_USERNAME')
+                    password = findProperty('mavenCentralPassword') ?: System.getenv('MAVEN_CENTRAL_PASSWORD')
+                }
+            }
+        }
+
         publications {
             release(MavenPublication) {
                 from components.release
-                groupId = 'io.github.mzicode'
-                artifactId = 'mz-richtext'
-                version = '0.1.0'
+                groupId = publishedGroupId
+                artifactId = publishedArtifactId
+                version = publishedVersion
 
                 pom {
                     name = 'MzRichText'
@@ -64,6 +82,18 @@ afterEvaluate {
                     }
                 }
             }
+        }
+    }
+
+    signing {
+        def signingKey = findProperty('signingKey') ?: System.getenv('SIGNING_KEY')
+        def signingPassword = findProperty('signingPassword') ?: System.getenv('SIGNING_PASSWORD')
+        required {
+            gradle.taskGraph.allTasks.any { it.name.contains('MavenCentral') }
+        }
+        if (signingKey) {
+            useInMemoryPgpKeys(signingKey, signingPassword)
+            sign publishing.publications.release
         }
     }
 }
